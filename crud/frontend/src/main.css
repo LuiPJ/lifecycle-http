@@ -1,0 +1,22 @@
+@import url(https://fonts.googleapis.com/css?family=Muli:400,300italic,300,400italic);
+@import 'bootstrap/dist/css/bootstrap.min.css';
+body,
+html {
+  margin: 0;
+  font-family: muli, serif;
+  width: 100%;
+  padding: 0;
+  overflow-x:hidden;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
