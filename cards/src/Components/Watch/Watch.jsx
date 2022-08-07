@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import './Watch.css';
 import moment from 'moment/moment';
+
+import './Watch.css';
 
 export const Watch = () => {
   const [timersId, setTimersId] = useState([]);
   const [watchItems, setWatchItems] = useState([]);
+  const [cityValue, setCityValue] = useState('');
+  const [timeZoneValue, setTimeZoneValue] = useState('');
 
   useEffect(() => {
     return () => {
@@ -13,26 +16,23 @@ export const Watch = () => {
     };
   }, []);
 
-  const createWatchItem = (city = 'Moscow', newZone = 0) => {
-    if (city.length === 0) city = 'Moscow'
+  const createWatchItem = (city, timeZone = 0) => {
+    if (city.length === 0) city = 'Moscow';
     const newId = uuidv4();
     setWatchItems((prev) => [
       ...prev,
-      { id: newId, city: city, zone: moment().add(newZone, 'hours').format('LTS') },
+      { id: newId, city: city, zone: moment().add(timeZone, 'hours').format('LTS') },
     ]);
     const timerId = setInterval(() => {
       setWatchItems((prev) => {
         const index = prev.findIndex((watch) => watch.id === newId);
         const newArr = prev.slice();
-        newArr[index].zone = moment().add(newZone, 'hours').format('LTS');
+        newArr[index].zone = moment().add(timeZone, 'hours').format('LTS');
         return newArr;
       })
     }, 1000);
     setTimersId((prev) => [...prev, { watchId: newId, timerId: timerId }]);
   };
-
-  const [cityValue, setCityValue] = useState('');
-  const [timeZoneValue, setTimeZoneValue] = useState('');
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -47,6 +47,7 @@ export const Watch = () => {
     const removeWatchItem = watchItems.filter((item) => item.id !== id);
     setWatchItems(removeWatchItem);
   };
+
   return (
     <div className="container">
       <div className="input__group">
